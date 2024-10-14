@@ -3,7 +3,6 @@ Marc Pérez Juncas
 14/10/24
 """
 import datetime
-from contextlib import nullcontext
 try:
     mes = int(input("Introdueix el mes: "))
     any = int(input("introdueix el any: "))
