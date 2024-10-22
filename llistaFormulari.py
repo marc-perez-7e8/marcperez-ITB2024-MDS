@@ -35,6 +35,7 @@ for child in root:
     else:
         print('Any invalid')
 
+
     # Imprimir los valores separados
     print(f"Día: {dia}, Mes: {mes}, Año: {año}")
 
