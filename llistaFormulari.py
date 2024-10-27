@@ -1,13 +1,14 @@
 import xml.etree.ElementTree as ET
-from os.path import isdir
 
-tree = ET.parse('/home/marc.perez.7e8/Incidencias.xml')
+tree = ET.parse("C:\\Users\\Usuario\\Desktop\\Incidencias.xml")
 root = tree.getroot()
-incidenciesTotals = 0
 
+# Contadores
+incidenciesTotals = 0
+invalid = 0
 
 for child in root:
-    incidenciesTotals = incidenciesTotals + 1
+    incidenciesTotals += 1
     data = child.find('DATA_DE_LA_INCIDÈNCIA').text
     dataFiltro = data.replace("/", " ")
     print(dataFiltro)
@@ -21,22 +22,28 @@ for child in root:
     añoInt = int(año)
 
     # Comprovació de dades
+    valid = True
+    if not (1 <= diaInt <= 31):
+        valid = False
+    if mesInt == 2:
+        if (añoInt % 4 == 0) and (añoInt % 100 != 0):
+            if diaInt > 29:
+                valid = False
+        else:
+            if diaInt > 28:
+                valid = False
+    elif not (1 <= mesInt <= 12):
+        valid = False
+    if añoInt < 2024:
+        valid = False
 
-    if diaInt >= 1 and diaInt <= 31:
-        print('Dia valid')
+    if valid:
+        print('Incidencia válida')
     else:
-        print('Dia invalid')
-    if mesInt >= 1 and mesInt <= 12:
-        print('Mes valid')
-    else:
-        print('Mes invalid')
-    if añoInt >= 2024:
-        print('Any valid')
-    else:
-        print('Any invalid')
+        print('Incidencia inválida')
+        invalid += 1
 
-
-    # Imprimir los valores separados
-    print(f"Día: {dia}, Mes: {mes}, Año: {año}")
-
-print("N'hi han", incidenciesTotals, "incidencies.")
+# Cálculo de porcentaje de incidencias inválidas
+if incidenciesTotals > 0:
+    porcentaje_invalid = (invalid / incidenciesTotals) * 100
+    print(f"N'hi han {incidenciesTotals} incidencies, de les quals {invalid} son invalides ({porcentaje_invalid:.2f}%).")
